@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kana Learn</title>
+<meta name="description" content="Kana Learn – Japanese for beginners: hiragana, katakana, kanji, words and dialogues.">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans:wght@400;600&family=Noto+Sans+JP:wght@500&display=swap">
+<style>
+/* Layout: logo-led hero, a kana strip as the one bold device, then plain sections in a single column */
+:root {
+  --bg: #fdf6f7; --paper: #ffffff; --ink: #23205a; --muted: #67607a; --line: #f0dde2;
+  --torii: #c8322d; --sakura: #dea0ac; --wash: #fbe9ed;
+  --display: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Noto Sans", system-ui, sans-serif;
+  --body: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #16141d; --paper: #1f1c27; --ink: #ece9f6; --muted: #a8a1b8; --line: #332f3e;
+  --torii: #ff6b5f; --sakura: #b97d89; --wash: #2a2230; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #16141d; --paper: #1f1c27; --ink: #ece9f6; --muted: #a8a1b8; --line: #332f3e;
+  --torii: #ff6b5f; --sakura: #b97d89; --wash: #2a2230; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.65;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 48px; }
+.wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+nav.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; color: var(--torii); }
+.langs { display: flex; gap: 6px; }
+.langs button { font: 600 13px var(--body); color: var(--ink); background: var(--paper); border: 1.5px solid var(--sakura); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.langs button[aria-pressed="true"] { background: var(--torii); border-color: var(--torii); color: #fff; }
+.langs button:focus-visible, a:focus-visible { outline: 2px solid var(--torii); outline-offset: 2px; }
+.hero { display: grid; grid-template-columns: 200px 1fr; gap: 32px; align-items: center; }
+.hero img { width: 200px; height: 200px; border-radius: 44px; box-shadow: 0 14px 40px rgba(150,60,80,.22); }
+.hero > div { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+h1 { font-family: var(--display); font-weight: 900; font-size: clamp(40px, 8vw, 64px); line-height: 1.05; margin: 0; text-wrap: balance; }
+.tag { font-family: var(--display); font-weight: 700; font-size: clamp(18px, 3vw, 22px); color: var(--torii); margin: 0; }
+.lead { margin: 0; color: var(--muted); max-width: 60ch; }
+.cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; border-radius: 999px; padding: 11px 20px; }
+.btn.primary { background: var(--ink); color: var(--bg); }
+.btn.ghost { border: 1.5px solid var(--sakura); color: var(--ink); background: var(--paper); }
+.strip { font-family: var(--jp); font-size: clamp(26px, 6vw, 44px); color: var(--torii); background: var(--wash); border-radius: 18px;
+  padding: 14px 18px; display: flex; justify-content: space-between; gap: 8px; overflow: hidden; letter-spacing: .04em; }
+.strip span:nth-child(even) { color: var(--ink); opacity: .75; }
+section { display: flex; flex-direction: column; gap: 14px; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 26px; margin: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.feat { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+.feat b { font-family: var(--display); font-size: 17px; }
+.feat .jp { font-family: var(--jp); color: var(--torii); font-size: 22px; line-height: 1; }
+.feat p { margin: 0; color: var(--muted); font-size: 15px; }
+.price { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.plan { border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 6px; border: 1.5px solid var(--line); background: var(--paper); }
+.plan.pro { border-color: var(--torii); }
+.plan h3 { font-family: var(--display); margin: 0; font-size: 20px; }
+.plan .amt { font-family: var(--display); font-weight: 900; font-size: 30px; color: var(--torii); font-variant-numeric: tabular-nums; }
+.plan ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 3px; color: var(--muted); }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips span { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 14px; }
+.contact { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.mail { font-weight: 600; user-select: all; overflow-wrap: anywhere; }
+.contact button { font: 600 13px var(--body); border: 1.5px solid var(--sakura); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+footer { color: var(--muted); font-size: 13px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+footer a { color: var(--muted); }
+@media (max-width: 600px) { .hero { grid-template-columns: 1fr; justify-items: start; } .hero img { width: 140px; height: 140px; border-radius: 32px; } }
+@media (prefers-reduced-motion: no-preference) { .btn { transition: transform .15s; } .btn:hover { transform: translateY(-2px); } }
+</style>
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top">
+    <div class="brand">Azadi Education</div>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" id="l-en" data-l="en" aria-pressed="true">EN</button>
+      <button type="button" id="l-ru" data-l="ru" aria-pressed="false">RU</button>
+      <button type="button" id="l-tr" data-l="tr" aria-pressed="false">TR</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <img src="data:image/webp;base64,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" alt="Kana Learn logo: a bunny with a brush under a torii gate">
+    <div>
+      <h1>Kana Learn</h1>
+      <p class="tag" data-t="tag">Japanese for beginners</p>
+      <p class="lead" data-t="lead">Learn Japanese from zero: hiragana, katakana, kanji, first words and short dialogues. Simple lessons for children and adults.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.azadieducation.kanalearn" target="_blank" rel="noopener">▶ Google Play</a>
+        <a class="btn ghost" href="privacy.html" data-t="privacy">Privacy policy</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="strip" aria-hidden="true"><span>あ</span><span>い</span><span>う</span><span>え</span><span>お</span><span>ア</span><span>イ</span><span>ウ</span><span>日</span><span>本</span></div>
+
+  <section>
+    <h2 data-t="h-inside">What's inside</h2>
+    <div class="grid">
+      <div class="feat"><span class="jp">あア</span><b data-t="f1">Hiragana &amp; katakana</b><p data-t="f1d">Every letter with sound, picture and writing practice.</p></div>
+      <div class="feat"><span class="jp">日</span><b data-t="f2">Kanji</b><p data-t="f2d">First basic kanji with meanings and readings.</p></div>
+      <div class="feat"><span class="jp">言葉</span><b data-t="f3">46 lessons</b><p data-t="f3d">Words with pictures, audio, grammar notes and examples.</p></div>
+      <div class="feat"><span class="jp">会話</span><b data-t="f4">Dialogues</b><p data-t="f4d">Everyday conversations with normal and slow audio.</p></div>
+      <div class="feat"><span class="jp">発音</span><b data-t="f5">Pronunciation</b><p data-t="f5d">Say the word and get a score.</p></div>
+      <div class="feat"><span class="jp">🥕</span><b data-t="f6">Bunny game</b><p data-t="f6d">Answer correctly and feed the bunny carrots.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-t="h-price">Price</h2>
+    <div class="price">
+      <div class="plan"><h3 data-t="free">Free</h3><div class="amt">0</div>
+        <ul><li data-t="free1">Hiragana, katakana, kanji</li><li data-t="free2">Lesson 1</li><li data-t="free3">Writing practice</li></ul></div>
+      <div class="plan pro"><h3>Kana Learn Premium</h3><div class="amt">$4.99 <small data-t="mo" style="font-size:16px">/ month</small></div>
+        <ul><li data-t="pro1">All lessons from Lesson 2</li><li data-t="pro2">Tests and pronunciation for every lesson</li><li data-t="pro3">All words in the games</li></ul></div>
+    </div>
+    <p class="note" data-t="pnote">Price in your local currency is shown in Google Play. The subscription renews monthly; cancel anytime in Google Play → Payments &amp; subscriptions.</p>
+  </section>
+
+  <section>
+    <h2 data-t="h-lang">10 languages</h2>
+    <div class="chips"><span>English</span><span>Русский</span><span>Türkmençe</span><span>Türkçe</span><span>Deutsch</span><span>中文</span><span>العربية</span><span>Français</span><span>हिंदी</span><span>Español</span></div>
+  </section>
+
+  <section>
+    <h2 data-t="h-contact">Contact</h2>
+    <div class="contact"><span class="mail" id="mail">antilopus94@gmail.com</span><button type="button" id="copy" data-t="copy">Copy</button></div>
+  </section>
+
+  <footer>
+    <div>© 2026 Azadi Education · Azady Esenov · Istanbul</div>
+    <div><a href="privacy.html" data-t="privacy">Privacy policy</a></div>
+  </footer>
+</div>
+
+<script>
+const T = {
+  ru: { tag: 'Японский для начинающих', lead: 'Японский язык с нуля: хирагана, катакана, кандзи, первые слова и короткие диалоги. Простые уроки для детей и взрослых.', privacy: 'Политика конфиденциальности',
+    'h-inside': 'Что внутри', f1: 'Хирагана и катакана', f1d: 'Каждая буква со звуком, картинкой и прописями.', f2: 'Кандзи', f2d: 'Первые базовые иероглифы со значениями и чтениями.', f3: '46 уроков', f3d: 'Слова с картинками, озвучкой, грамматикой и примерами.', f4: 'Диалоги', f4d: 'Бытовые разговоры с обычной и медленной озвучкой.', f5: 'Произношение', f5d: 'Скажите слово и получите оценку.', f6: 'Игра с зайчиком', f6d: 'Отвечайте правильно и кормите зайчика морковкой.',
+    'h-price': 'Цена', free: 'Бесплатно', free1: 'Хирагана, катакана, кандзи', free2: '1-й урок', free3: 'Прописи', mo: '/ месяц', pro1: 'Все уроки начиная со 2-го', pro2: 'Тесты и произношение для каждого урока', pro3: 'Все слова в играх',
+    pnote: 'Цена в вашей валюте показана в Google Play. Подписка продлевается каждый месяц; отменить можно в любое время: Google Play → «Платежи и подписки».', 'h-lang': '10 языков', 'h-contact': 'Связаться', copy: 'Копировать' },
+  tr: { tag: 'Yeni başlayanlar için Japonca', lead: 'Sıfırdan Japonca: hiragana, katakana, kanji, ilk kelimeler ve kısa diyaloglar. Çocuklar ve yetişkinler için basit dersler.', privacy: 'Gizlilik politikası',
+    'h-inside': 'İçinde neler var', f1: 'Hiragana ve katakana', f1d: 'Her harf ses, resim ve yazma alıştırmasıyla.', f2: 'Kanji', f2d: 'Anlamları ve okunuşlarıyla ilk temel kanjiler.', f3: '46 ders', f3d: 'Resimli, sesli kelimeler, dilbilgisi notları ve örnekler.', f4: 'Diyaloglar', f4d: 'Normal ve yavaş seslendirmeli günlük konuşmalar.', f5: 'Telaffuz', f5d: 'Kelimeyi söyleyin, puanınızı alın.', f6: 'Tavşan oyunu', f6d: 'Doğru cevap verin, tavşana havuç yedirin.',
+    'h-price': 'Fiyat', free: 'Ücretsiz', free1: 'Hiragana, katakana, kanji', free2: '1. ders', free3: 'Yazma alıştırması', mo: '/ ay', pro1: '2. dersten itibaren tüm dersler', pro2: 'Her ders için testler ve telaffuz', pro3: 'Oyunlardaki tüm kelimeler',
+    pnote: 'Yerel para birimindeki fiyat Google Play\'de gösterilir. Abonelik her ay yenilenir; Google Play → Ödemeler ve abonelikler bölümünden istediğiniz zaman iptal edebilirsiniz.', 'h-lang': '10 dil', 'h-contact': 'İletişim', copy: 'Kopyala' }
+};
+const EN = {};
+document.querySelectorAll('[data-t]').forEach(el => { EN[el.dataset.t] = el.textContent; });
+function setLang(l) {
+  const d = l === 'en' ? EN : T[l];
+  document.querySelectorAll('[data-t]').forEach(el => { const v = d[el.dataset.t]; if (v) el.textContent = v; });
+  document.documentElement.lang = l;
+  document.querySelectorAll('.langs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === l)));
+  try { localStorage.setItem('kl-lang', l); } catch (e) {}
+}
+document.querySelectorAll('.langs button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.l)));
+let start = 'en';
+try { start = localStorage.getItem('kl-lang') || ''; } catch (e) {}
+if (!start) { const n = (navigator.language || 'en').slice(0, 2); start = n === 'ru' ? 'ru' : n === 'tr' ? 'tr' : 'en'; }
+if (start !== 'en' && T[start]) setLang(start);
+document.getElementById('copy').addEventListener('click', async () => {
+  const t = document.getElementById('mail').textContent;
+  try { await navigator.clipboard.writeText(t); }
+  catch (e) { const r = document.createRange(); r.selectNodeContents(document.getElementById('mail')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+});
+</script>
+</body>
+</html>

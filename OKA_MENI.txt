@@ -1,0 +1,5 @@
+KANA LEARN SAÝTY (GitHub Pages)
+index.html   - baş sahypa
+privacy.html - gizlinlik syýasaty
+icon.png     - ikonka
+Üç faýly hem GitHub-daky repozitoriýa ýükläň (ädimler söhbetdeşlikde).
